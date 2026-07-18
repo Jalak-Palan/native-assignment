@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,6 +14,7 @@ interface CustomHeaderProps {
 
 export const CustomHeader: React.FC<CustomHeaderProps> = ({ title, showBack = false }) => {
   const navigation = useNavigation();
+  const router = useRouter();
   const colorScheme = useColorScheme() ?? 'light';
   const insets = useSafeAreaInsets();
   
@@ -52,7 +53,7 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({ title, showBack = fa
       </View>
       
       <Pressable 
-        onPress={() => navigation.navigate('(drawer)/(tabs)/profile' as any)} 
+        onPress={() => router.push('/(drawer)/(tabs)/profile')} 
         style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}
       >
         <Ionicons 
