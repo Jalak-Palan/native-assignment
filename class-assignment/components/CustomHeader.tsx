@@ -1,11 +1,14 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
+
+const PHOTO_STORAGE_KEY = '@user_photo';
 
 interface CustomHeaderProps {
   title: string;
@@ -17,8 +20,18 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({ title, showBack = fa
   const router = useRouter();
   const colorScheme = useColorScheme() ?? 'light';
   const insets = useSafeAreaInsets();
-  
   const colors = Colors[colorScheme];
+
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
+
+  // Load saved profile photo each time the header renders (focus-aware)
+  useEffect(() => {
+    let active = true;
+    AsyncStorage.getItem(PHOTO_STORAGE_KEY).then((uri) => {
+      if (active && uri) setPhotoUri(uri);
+    });
+    return () => { active = false; };
+  }, []);
 
   const handleLeftPress = () => {
     if (showBack) {
@@ -52,15 +65,23 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({ title, showBack = fa
         <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
       </View>
       
+      {/* Profile avatar button */}
       <Pressable 
         onPress={() => router.push('/(drawer)/(tabs)/profile')} 
-        style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}
+        style={({ pressed }) => [styles.avatarButton, pressed && styles.pressed]}
       >
-        <Ionicons 
-          name="person-circle-outline" 
-          size={26} 
-          color={colors.text} 
-        />
+        {photoUri ? (
+          <Image
+            source={{ uri: photoUri }}
+            style={styles.avatarImage}
+          />
+        ) : (
+          <Ionicons 
+            name="person-circle-outline" 
+            size={36} 
+            color={colors.text} 
+          />
+        )}
       </Pressable>
     </View>
   );
@@ -87,6 +108,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  avatarButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  avatarImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 2,
+    borderColor: '#0a7ea4',
+  },
   pressed: {
     opacity: 0.6,
     backgroundColor: 'rgba(0,0,0,0.05)',
@@ -102,3 +138,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+

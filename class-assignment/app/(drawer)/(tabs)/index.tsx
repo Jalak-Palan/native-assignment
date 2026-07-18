@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CustomHeader } from '@/components/CustomHeader';
 import { useSurvey } from '@/context/SurveyContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
+
+const PROFILE_STORAGE_KEY = '@user_profile';
+
+interface UserProfile { name: string; roll: string; email: string; }
 
 export default function DashboardScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme() ?? 'light';
   const { surveys, currentSurvey } = useSurvey();
   const colors = Colors[colorScheme];
+
+  const [profile, setProfile] = useState<UserProfile>({
+    name: 'Jalak Palan',
+    roll: 'RN-2026-07',
+    email: 'jalak.palan@student.edu',
+  });
+
+  useEffect(() => {
+    AsyncStorage.getItem(PROFILE_STORAGE_KEY).then((stored) => {
+      if (stored) setProfile(JSON.parse(stored));
+    });
+  }, []);
 
   // Calculate Today's Survey Count
   const getTodaySurveyCount = () => {
@@ -113,8 +130,8 @@ export default function DashboardScreen() {
               <Text style={[styles.infoCardTitle, { color: colors.text }]}>Student Details</Text>
             </View>
             <View style={styles.studentDetails}>
-              <Text style={[styles.studentName, { color: colors.text }]}>Jalak Palan</Text>
-              <Text style={[styles.studentRoll, { color: colors.icon }]}>Roll No: RN-2026-07</Text>
+              <Text style={[styles.studentName, { color: colors.text }]}>{profile.name}</Text>
+              <Text style={[styles.studentRoll, { color: colors.icon }]}>Roll No: {profile.roll}</Text>
               <Text style={[styles.studentClass, { color: colors.icon }]}>Mini Project Assignment</Text>
             </View>
           </View>
