@@ -15,8 +15,8 @@ The project features a sleek, premium UI/UX, responsive styling supporting dark/
 ## 👨‍🎓 Student & Project Metadata
 
 *   **Student Name:** Jalak Palan
-*   **Student Email:** `jalak.palan@student.edu`
-*   **Roll Number:** `RN-2026-07`
+*   **Student Email:** `jalak.a.palan@gmail.com`
+*   **Roll Number:** `SUK250054CE095`
 *   **Course:** React Native Mini Project Assignment
 *   **Core Target:** 100% compliance with Modules 1 through 8.
 
