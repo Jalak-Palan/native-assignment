@@ -98,6 +98,11 @@ export default function SurveyPreviewScreen() {
             <Text style={[styles.detailVal, { color: colors.text }]}>{currentSurvey.clientName}</Text>
           </View>
 
+          <View style={styles.detailRow}>
+            <Text style={[styles.detailLabel, { color: colors.icon }]}>ADDRESS</Text>
+            <Text style={[styles.detailVal, { color: colors.text }]}>{currentSurvey.address}</Text>
+          </View>
+
           <View style={styles.metaRow}>
             <View style={styles.metaCol}>
               <Text style={[styles.detailLabel, { color: colors.icon }]}>PRIORITY</Text>

@@ -31,8 +31,8 @@ interface UserProfile {
 
 const DEFAULT_PROFILE: UserProfile = {
   name: 'Jalak Palan',
-  roll: 'RN-2026-07',
-  email: 'jalak.palan@student.edu',
+  roll: 'SUK250054CE095',
+  email: 'jalak.a.palan@gamil.com',
 };
 
 function getInitials(name: string): string {

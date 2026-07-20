@@ -119,6 +119,10 @@ export default function SurveyDetailScreen() {
             <Text style={[styles.detailLabel, { color: colors.icon }]}>CLIENT NAME</Text>
             <Text style={[styles.detailVal, { color: colors.text }]}>{survey.clientName}</Text>
           </View>
+          <View style={styles.detailRow}>
+            <Text style={[styles.detailLabel, { color: colors.icon }]}>ADDRESS</Text>
+            <Text style={[styles.detailVal, { color: colors.text }]}>{survey.address}</Text>
+          </View>
 
           <View style={styles.metaRow}>
             <View style={styles.metaCol}>

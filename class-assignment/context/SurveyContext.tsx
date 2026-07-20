@@ -6,6 +6,7 @@ export interface SurveyData {
   id: string;
   siteName: string;
   clientName: string;
+  address?: string;
   description: string;
   priority: 'Low' | 'Medium' | 'High';
   date: string;
@@ -43,6 +44,7 @@ const createEmptySurvey = (): SurveyData => ({
   id: `SRV-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`,
   siteName: '',
   clientName: '',
+  address: '',
   description: '',
   priority: 'Medium',
   date: new Date().toLocaleDateString(),
